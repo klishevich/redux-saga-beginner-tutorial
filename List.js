@@ -11,8 +11,8 @@ export default class List extends Component {
          <span>{list.id}</span>
         </div>        
         <div>
-          <span><b>Name:</b></span>
-          <span>{list.name}</span>
+          <span><b>House:</b></span>
+          <span>{list.house}</span>
         </div>
       </div>
     )
