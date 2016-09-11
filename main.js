@@ -3,20 +3,32 @@ import "babel-polyfill"
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { createStore, applyMiddleware } from 'redux'
+import createSagaMiddleware from 'redux-saga'
 
 import Counter from './Counter'
 import reducer from './reducers'
 
-const store = createStore(reducer)
+import rootSaga from './sagas'
 
 const action = type => store.dispatch({type})
+
+const sagaMiddleware = createSagaMiddleware()
+
+const store = createStore(
+  reducer,
+  applyMiddleware(sagaMiddleware)
+)
+sagaMiddleware.run(rootSaga)
 
 function render() {
   ReactDOM.render(
     <Counter
-      value={store.getState()}
+      stateData={store.getState()}
+      lists={store.getState().lists}
       onIncrement={() => action('INCREMENT')}
-      onDecrement={() => action('DECREMENT')} />,
+      onIncrementAsync={() => action('INCREMENT_ASYNC')}
+      onDecrement={() => action('DECREMENT')}
+      onGetLists={() => action('GET_LISTS')} />,
     document.getElementById('root')
   )
 }
